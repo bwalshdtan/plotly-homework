@@ -25,11 +25,12 @@ function buildCharts(id) {
     x: otuIds,
     y: sampleValues,
     text: otuLabels,
+    type: "scatter",
     mode: "markers",
     markers: {
       size: sampleValues,
-      color: otuIds
-      // colorscale: earth
+      color: otuIds,
+      colorscale: "earth"
     }
   };
 
@@ -68,6 +69,29 @@ function buildCharts(id) {
 });
 }
 
+function buildMetadata() {
+  
+  
+  d3.json("samples.json").then(function(sample){
+
+    
+    var sampleMetadata = d3.select("#sample-metadata");
+
+    
+    sampleMetadata.html("");
+
+    
+    
+    Object.entries(sample).forEach(function ([key, value]) {
+      var row = sampleMetadata.append("p");
+      row.text(`${key}:${value}`)
+    });
+  });
+};
+
+
+
+
 function init() {
   var selector = d3.select("#selDataset");
   d3.json("samples.json").then((importedData) => {
@@ -83,5 +107,8 @@ init();
 
 function optionChanged (x) {
   buildCharts(x);
+  buildMetadata(x);
   
 }
+
+
