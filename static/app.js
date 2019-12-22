@@ -7,6 +7,8 @@ function buildCharts(id) {
 
   
   console.log(data);
+
+
   var results = data.samples;
   // Slice the first 10 objects for plotting
   var result = results.filter(sampleObject => sampleObject.id == id);
@@ -14,13 +16,30 @@ function buildCharts(id) {
   var samples = result[0];
     console.log(samples);
 
-  // Trace1 for the Greek Data
+  
   var otuLabels = samples.otu_labels;
   var otuIds = samples.otu_ids;
   var sampleValues = samples.sample_values;
 
+  var trace2 = {
+    x: otuIds,
+    y: sampleValues,
+    text: otuLabels,
+    mode: "markers",
+    markers: {
+      size: sampleValues,
+      color: otuIds
+      // colorscale: earth
+    }
+  };
+
+  var chartData2 = [trace2];
   
-  
+  var layout2 = {
+    title: "Bubble Chart"
+  };
+
+  Plotly.newPlot("bubble", chartData2, layout2);
   
   
   var trace1 = {
